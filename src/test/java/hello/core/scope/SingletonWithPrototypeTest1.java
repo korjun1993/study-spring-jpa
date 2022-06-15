@@ -1,4 +1,4 @@
-package scope;
+package hello.core.scope;
 
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;

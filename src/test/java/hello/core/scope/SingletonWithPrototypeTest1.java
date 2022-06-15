@@ -17,11 +17,11 @@ public class SingletonWithPrototypeTest1 {
         AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(PrototypeBean.class);
         PrototypeBean prototypeBean1 = ac.getBean(PrototypeBean.class);
         prototypeBean1.addCount();
-        assertThat(prototypeBean1).isEqualTo(1);
+        assertThat(prototypeBean1.getCount()).isEqualTo(1);
 
         PrototypeBean prototypeBean2 = ac.getBean(PrototypeBean.class);
         prototypeBean2.addCount();
-        assertThat(prototypeBean2).isEqualTo(1);
+        assertThat(prototypeBean1.getCount()).isEqualTo(1);
 
     }
 

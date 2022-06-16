@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.inject.Provider;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -43,7 +44,8 @@ public class SingletonWithPrototypeTest1 {
     @Scope("singleton")
     @RequiredArgsConstructor // final field로 구성된 constructor 자동 생성
     static class ClientBean {
-        private final ObjectProvider<PrototypeBean> prototypeBeanProvider; // 내가 Bean 등록을 하지 않음. => Spring에 의해 자동으로 등록되는 Bean임
+        private final Provider<PrototypeBean> prototypeBeanProvider; // javax.inject:javax.inject:1 gradle 추가 필수
+        // JSR330 자바 표준, 스프링에 종속적이지 않음. 다른 컨테이너에서도 사용할 수 있다.
 
         // constructor 1개일시, Autowired 생략 가능
 //        public ClientBean(PrototypeBean prototypeBean) {
@@ -51,7 +53,7 @@ public class SingletonWithPrototypeTest1 {
 //        }
 
         public int logic() {
-            PrototypeBean prototypeBean = prototypeBeanProvider.getObject();
+            PrototypeBean prototypeBean = prototypeBeanProvider.get();
             prototypeBean.addCount();
             int count = prototypeBean.getCount();
             return count;

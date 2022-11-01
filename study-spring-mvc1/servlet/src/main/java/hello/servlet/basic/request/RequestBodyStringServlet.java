@@ -17,7 +17,7 @@ public class RequestBodyStringServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ServletInputStream inputStream = request.getInputStream(); // message body 내용을 byte 로 얻을 수 있다.
-        String messageBody = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8); // byte <-> 문자 변환시 인코딩 방법을 명시해야한다.
+        String messageBody = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8); // byte <-> 문자열 변환시 인코딩 방법을 명시해야한다.
         System.out.println("messageBody = " + messageBody);
         response.getWriter().write("ok");
     }

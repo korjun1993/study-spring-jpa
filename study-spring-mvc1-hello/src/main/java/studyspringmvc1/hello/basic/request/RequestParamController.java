@@ -2,9 +2,11 @@ package studyspringmvc1.hello.basic.request;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import studyspringmvc1.hello.basic.HelloData;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -71,6 +73,37 @@ public class RequestParamController {
     public String requestParamParamMap(
             @RequestParam Map<String, Object> paramMap) { // Map, MultiValueMap, 으로 파라미터값 받는 것 가능
         log.info("username={}, age={}", paramMap.get("username"), paramMap.get("age"));
+        return "ok";
+    }
+
+    /**
+     *  ModelAttribute 실행 순서
+     *  1. HelloData 객체를 생성
+     *  2. 요청 파라미터의 이름으로 HelloData 객체의 프로퍼티를 찾는다.
+     *  3. 해당 프로퍼티의 setter를 호출해서 파라미터의 값을 바인딩한다.
+     *  예) localhost:8080/model-attribute-v1?username=kim
+     *  파라미터 이름(=username)을 바탕으로 setter(=setUsername())를 찾아서 호출하면서 값(=kim)을 입력한다.
+     */
+    @ResponseBody
+    @RequestMapping("/model-attribute-v1")
+    public String modelAttributeV1(@ModelAttribute HelloData helloData) {
+        log.info("username={}, age={}", helloData.getUsername(), helloData.getAge());
+        log.info("helloData={}", helloData);
+        return "ok";
+    }
+
+    /**
+     *  ModelAttribute 생략이 가능하다.
+     *  RequestParam 도 생략이 가능하므로 혼란이 발생할 수 있다.
+     *  스프링은 다음과 같은 규칙을 적용한다.
+     *  String, int, Integer 같은 단순 타입 = @RequestParam 생략됐다고 여김
+     *  나머지 = @ModelAttribute 생략됐다고 여 (argument resolver 로 지정해둔 타입 외, 예) HttpServletResponse)
+     */
+    @ResponseBody
+    @RequestMapping("/model-attribute-v2")
+    public String modelAttributeV2(HelloData helloData) { // @ModelAttribute 생략 가능
+        log.info("username={}, age={}", helloData.getUsername(), helloData.getAge());
+        log.info("helloData={}", helloData);
         return "ok";
     }
 }

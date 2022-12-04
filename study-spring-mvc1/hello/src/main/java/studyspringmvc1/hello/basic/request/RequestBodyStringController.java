@@ -56,7 +56,7 @@ public class RequestBodyStringController {
     }
 
     /**
-     * HttpEntity 를 상속받은 다음 객체들도 같은 기느을 제공한다.
+     * HttpEntity 를 상속받은 다음 객체들도 같은 기능을 제공한다.
      * RequestEntity : HttpMethod, Url 정보를 얻어오는 기능이 추가됨.
      * ResponseEntity : HTTP 상태 코드 설정이 가능함.
      */

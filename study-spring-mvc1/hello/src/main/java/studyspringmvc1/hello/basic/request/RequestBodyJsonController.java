@@ -3,8 +3,11 @@ package studyspringmvc1.hello.basic.request;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StreamUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -15,6 +18,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -49,10 +55,10 @@ public class RequestBodyJsonController {
     }
 
     /**
-     *  HttpEntity, RequestBody를 사용하면 HTTP 메시지 컨버터가 HTTP 메시지 바디의 내용을
-     *  우리가 원하는 문자나, 객체 등으로 변환해준다.
-     *  HTTP 메시지 컨버터는 문자 뿐만 아니라 JSON도 객체로 변환해주는데, V2에서 했던 작업을 대신 처리해준다.
-     *  생략 불가능 : @RequestBody (생략시, ModelAttribute로 여겨서 요청 파라미터에서 값을 가져오려고한다. )
+     * HttpEntity, RequestBody를 사용하면 HTTP 메시지 컨버터가 HTTP 메시지 바디의 내용을
+     * 우리가 원하는 문자나, 객체 등으로 변환해준다.
+     * HTTP 메시지 컨버터는 문자 뿐만 아니라 JSON도 객체로 변환해주는데, V2에서 했던 작업을 대신 처리해준다.
+     * 생략 불가능 : @RequestBody (생략시, ModelAttribute로 여겨서 요청 파라미터에서 값을 가져오려고한다. )
      */
     @ResponseBody
     @PostMapping("/request-body-json-v3")

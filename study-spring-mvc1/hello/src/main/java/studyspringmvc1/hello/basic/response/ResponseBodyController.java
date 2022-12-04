@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import studyspringmvc1.hello.basic.HelloData;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 
 @Slf4j
 @Controller
@@ -30,6 +32,12 @@ public class ResponseBodyController {
     @GetMapping("/response-body-string-v3")
     public String responseBodyV3() {
         return "ok";
+    }
+
+    @GetMapping("/response-body-string-v4")
+    public ResponseEntity<String> responseBodyV4(HttpServletRequest request) throws IOException {
+        log.info(request.getHeader("Accept"));
+        return new ResponseEntity<>("ok", HttpStatus.OK);
     }
 
     /// JSON 처리 ///

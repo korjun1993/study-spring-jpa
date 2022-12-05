@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import studyspringmvc1.itemservice.domain.item.Item;
 import studyspringmvc1.itemservice.domain.item.ItemRepository;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Controller
@@ -51,5 +52,18 @@ public class BasicItemController {
     public String addItemV2(Item item) {
         itemRepository.save(item);
         return "redirect:/basic/items/" + item.getId();
+    }
+
+    @GetMapping("/{itemId}/edit")
+    public String editForm(@PathVariable Long itemId, Model model) {
+        Item item = itemRepository.findById(itemId);
+        model.addAttribute("item", item);
+        return "basic/editForm";
+    }
+
+    @PostMapping("/{itemId}/edit")
+    public String edit(@PathVariable Long itemId, Item item) {
+        itemRepository.update(itemId, item);
+        return "redirect:/basic/items/{itemId}";
     }
 }

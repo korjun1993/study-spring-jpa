@@ -5,10 +5,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import studyspringmvc1.itemservice.domain.item.Item;
 import studyspringmvc1.itemservice.domain.item.ItemRepository;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Controller
@@ -28,6 +30,20 @@ public class BasicItemController {
     public String item(@PathVariable long itemId, Model model) {
         Item item = itemRepository.findById(itemId);
         model.addAttribute("item", item);
+        return "basic/item";
+    }
+
+    @GetMapping("/add")
+    public String addForm() {
+        return "basic/addForm";
+    }
+
+    @PostMapping("/add")
+    public String addItem(Item item) {
+        itemRepository.save(item);
+//        key값: 클래스이름에서 첫글자를 소문자로 변경 (Item -> item)
+//        value값: 객체
+//        model.addAttribute("item", item); // 이 코드가 자동으로 추가된다.
         return "basic/item";
     }
 }

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import studyspringmvc1.itemservice.domain.item.Item;
 import studyspringmvc1.itemservice.domain.item.ItemRepository;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Controller
@@ -38,12 +37,19 @@ public class BasicItemController {
         return "basic/addForm";
     }
 
+//    @PostMapping("/add")
+//    public String addItem(Item item) {
+//        itemRepository.save(item);
+////        key값: 클래스이름에서 첫글자를 소문자로 변경 (Item -> item)
+////        value값: 객체
+////        model.addAttribute("item", item); // 이 코드가 자동으로 추가된다.
+//        return "basic/item";
+//    }
+
+    // PRG 패턴, POST요청 중복 방지
     @PostMapping("/add")
-    public String addItem(Item item) {
+    public String addItemV2(Item item) {
         itemRepository.save(item);
-//        key값: 클래스이름에서 첫글자를 소문자로 변경 (Item -> item)
-//        value값: 객체
-//        model.addAttribute("item", item); // 이 코드가 자동으로 추가된다.
-        return "basic/item";
+        return "redirect:/basic/items/" + item.getId();
     }
 }

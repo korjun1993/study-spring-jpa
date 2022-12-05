@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import studyspringmvc1.itemservice.domain.item.Item;
 import studyspringmvc1.itemservice.domain.item.ItemRepository;
 
@@ -48,10 +49,19 @@ public class BasicItemController {
 //    }
 
     // PRG 패턴, POST요청 중복 방지
+//    @PostMapping("/add")
+//    public String addItemV2(Item item) {
+//        itemRepository.save(item);
+//        return "redirect:/basic/items/" + item.getId();
+//    }
+
+    // Redirect Attribute, 사용자에게 동작 결과를 보여주기
     @PostMapping("/add")
-    public String addItemV2(Item item) {
-        itemRepository.save(item);
-        return "redirect:/basic/items/" + item.getId();
+    public String addItemV3(Item item, RedirectAttributes redirectAttributes) {
+        Item savedItem = itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", savedItem.getId());
+        redirectAttributes.addAttribute("status", true); // redirect location의 queryParameter 로 날라감
+        return "redirect:/basic/items/{itemId}"; // {itemId} => redirectAttribute의 itemId로 치환됨
     }
 
     @GetMapping("/{itemId}/edit")

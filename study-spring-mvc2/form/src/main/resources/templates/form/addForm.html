@@ -53,6 +53,17 @@
             </div>
         </div>
 
+        <!-- radio button -->
+        <div>
+            <div>상품 종류</div>
+            <div th:each="type : ${itemTypes}" class="form-check form-check-inline">
+                <input type="radio" th:field="*{itemType}" th:value="${type.name()}" class="form-check-inline">
+                <label th:for="${#ids.prev('itemType')}" th:text="${type.description}" class="form-check-label">
+                    BOOK
+                </label>
+            </div>
+        </div>
+
         <!-- hidden field 없으면, 리스트에도 null 들어감 -->
 <!--        <div>-->
 <!--            <div>등록지역</div>-->

@@ -29,7 +29,8 @@
         </div>
         <div>
             <label for="itemName" th:text="#{label.item.itemName}">상품명</label>
-            <input type="text" id="itemName" th:field="*{itemName}"
+            <!-- 오류가 없으면 Model 의 값을 가져오고, 오류가 있다면 BindingResult 의 rejectedValue 를 꺼내온다. -->
+            <input type="text" id="itemName" th:field="*{itemName}">
                    th:errorclass="field-error" class="form-control" placeholder="이름을 입력하세요">
             <div class="field-error" th:errors="*{itemName}">
                 상품명 오류

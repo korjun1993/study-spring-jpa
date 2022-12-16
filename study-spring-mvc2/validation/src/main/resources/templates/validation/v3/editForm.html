@@ -27,6 +27,10 @@
             <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
         </div>
         <div>
+            <label for="id" th:text="#{label.item.id}">상품 ID</label>
+            <input type="text" id="id" th:field="*{id}" class="form-control" readonly>
+        </div>
+        <div>
             <label for="itemName" th:text="#{label.item.itemName}">상품명</label>
             <!-- 오류가 없으면 Model 의 값을 가져오고, 오류가 있다면 BindingResult 의 rejectedValue 를 꺼내온다. -->
             <input type="text" id="itemName" th:field="*{itemName}"

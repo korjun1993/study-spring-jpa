@@ -37,6 +37,11 @@ public class APIExceptionController {
         throw new BadRequestException();
     }
 
+    @GetMapping("/api/response-status-ex2")
+    public String responseStatusEx2() {
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "error.bad", new IllegalArgumentException());
+    }
+
     @Data
     @AllArgsConstructor
     static class MemberDto {

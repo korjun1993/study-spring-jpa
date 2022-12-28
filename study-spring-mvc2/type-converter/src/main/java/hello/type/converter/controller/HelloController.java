@@ -42,4 +42,12 @@ public class HelloController {
         System.out.println("ipPort PORT = " + ipPort.getPort());
         return "ok";
     }
+
+    // http://localhost:8080/test?test=AAA
+    // Converter vs 프로퍼티접근을 통한 객체 생성
+    @GetMapping("/test")
+    public String helloV5(@ModelAttribute Test test) {
+        System.out.println("test test = " + test.getTest());
+        return "ok";
+    }
 }

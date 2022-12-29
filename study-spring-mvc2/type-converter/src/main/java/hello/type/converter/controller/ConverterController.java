@@ -1,7 +1,9 @@
 package hello.type.converter.controller;
 
 import hello.type.converter.type.IpPort;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +25,7 @@ public class ConverterController {
     @GetMapping("/converter/edit")
     public String converterForm(Model model) {
         IpPort ipPort = new IpPort("127.0.0.1", 8080);
-        Form form = new Form(ipPort);
+        Form form = new Form();
         model.addAttribute("form", form);
         return "converter-form";
     }
@@ -38,13 +40,10 @@ public class ConverterController {
 
     @Data
     @Slf4j
+    @NoArgsConstructor
+    @AllArgsConstructor
     static class Form {
         private IpPort ipPort;
-
-        public Form(IpPort ipPort) {
-            log.info("form create");
-            this.ipPort = ipPort;
-        }
     }
 }
 

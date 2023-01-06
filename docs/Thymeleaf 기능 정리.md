@@ -213,7 +213,83 @@ ${application.containsKey('foo')}
 ---
 
 ## 속성 값 설정
+
+**속성 설정**
+
+`th:*` 속성을 지정하면 타임리프는 기존 속성을 `th:*`로 지정한 속성으로 대체한다.
+기존 속성이 없다면 새로 만든다.
+```html
+<!-- 랜더링 전 -->
+<input type="text" name="mock" th:name="userA" />
+<!-- 랜더링 후 -->
+<input type="text" name="mock" name="userA" />
+```
+
+**속성 추가**
+
+```html
+<!-- 랜더링 이전 -->
+<input type="text" class="text" th:attrappend="class='large'" />
+<input type="text" class="text" th:attrprepend="class='large'" />
+<input type="text" class="text" th:classappend="class='large'" />
+<!-- 랜더링 이후 -->
+<input type="text" class="text large" />
+<input type="text" class="large text" />
+<input type="text" class="text large" />
+```
+
+**checked 처리**
+
+HTML에서는 `checked="false"`
+경우에도 `checked` 속성이 있기 때문에 체크 처리가 되어버린다.
+타임리프는 `th:checked="true/false"`를 사용하면 간편하게 체크 처리를 할 수 있다.
+```html
+<!-- 랜더링 이전 -->
+<input type="checkbox" th:checked="false" />
+<input type="checkbox" th:checked="true" />
+<!-- 랜더링 이후 -->
+<input type="checkbox" />
+<input type="checkbox" checked />
+```
+---
+
 ## 반복
+
+**반복 기능**
+
+`java.util.Iterable` , `java.util.Enumeration` 을 구현한 모든
+객체를 반복에 사용할 수 있다. `Map` 도 사용할 수 있는데, 이 경우 변수에 담기는 값은 `Map.Entry` 이다.
+
+```html
+<table>
+    <tr th:each="user, userStat : ${users}">
+        <td th:text="${userStat.count}"></td>
+        <td th:text="${userStat.index}"></td>
+        <td th:text="${userStat.size}"></td>
+        <td th:text="${userStat.even}"></td>
+        <td th:text="${userStat.odd}"></td>
+        <td th:text="${userStat.first}"></td>
+        <td th:text="${userStat.last}"></td>
+        <td th:text="${userStat.current}"></td>
+        <td th:text="${user.username}"></td>
+        <td th:text="${user.age}"></td>
+    </tr>
+</table>
+```
+
+**반복 상태**
+
+`<tr th:each="user, userStat : ${users}">`
+반복의 두번째 파라미터를 설정해서 반복의 상태를 확인할 수 있다.
+두 번째 파라미터는 생략 가능한데, 파라미터명은 지정한 변수명 + stat 이 된다.
+- index : 0부터 시작하는 값
+- count : 1부터 시작하는 값
+- size : 전체 사이즈
+- even , odd : 홀수, 짝수 여부( boolean )
+- first , last :처음, 마지막 여부( boolean )
+- current : 현재 객체
+---
+
 ## 주석
 ## 블록
 ## 자바스크립트 인라인

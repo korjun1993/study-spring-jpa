@@ -14,12 +14,12 @@
 - [연산](#연산)
 - [속성 값 설정](#속상-값-설정)
 - [반복](#반복)
-- [주석](#주석)
 - [블록](#블록)
 - [자바스크립트 인라인](#자바스크립트-인라인)
 - [템플릿 조각](#템플릿-조각)
 - [템플릿 레이아웃](#템플릿-레이아웃)
 - [입력 폼 처리](#입력-폼-처리)
+- [검증 오류 처리](#검증-오류-처리)
 - [참고링크](#참고링크)
 ---
 
@@ -290,12 +290,76 @@ HTML에서는 `checked="false"`
 - current : 현재 객체
 ---
 
-## 주석
 ## 블록
+
+`th:block`은 HTML 태그가 아닌 타임리프의 유일한 자체 태그이다. 하나 이상의 <tr>이 필요한 테이블을 만들 때 유용합니다.
+
+```html
+<th:block th:each="user : ${users}">
+    <div>
+        사용자 이름1 <span th:text="${user.username}"></span>
+        사용자 나이1 <span th:text="${user.age}"></span>
+    </div>
+    <div>
+        요약 <span th:text="${user.username} + ' / ' + ${user.age}"></span>
+    </div>
+</th:block>
+```
+---
+
 ## 자바스크립트 인라인
+
 ## 템플릿 조각
 ## 템플릿 레이아웃
 ## 입력 폼 처리
+## 검증 오류 처리
+타임리프를 활용하면 편리하게 검증 오류를 표현할 수 있다.
+- `#fields`: `#fields`로 `BindingResult`가 보관된 검증 오류에 접근할 수 있다.
+- `th:errors="*{...}"`: 해당 필드에 오류가 있는 경우 태그를 출력한다. `MessageCodesResolver`에 의해 생성된 오류 메시지 코드를 순서대로 돌아가면서 메시지를 찾아 text 로 출력한다. 
+- `th:errorclass`: `th:field`에서 지정한 필드에 오류가 있으면 `class` 정보를 추가한다.
+- `th:field="*{...}"`: 정상 상황에는 모델 객체의 값을 사용하지만, 오류가 발생하면 `FieldError` 에서 보관한 값을 사용해서 값을 출력한다.
+
+컨트롤러
+```java
+class ValidationController {
+  @PostMapping("/add")
+  public String addItemV3(@ModelAttribute Item item, BindingResult bindingResult) {
+      if (가격범위오류) {
+          bindingResult.addError(new FieldError("item", "price", item.getPrice(), false,
+                  new String[]{"range.item.price"},
+                  new Object[]{1000, 1000000}, null));
+      }
+  }
+
+  /**
+   * src/main/resources/errors.properties
+   * range.item.price=가격은 {0} ~ {1} 까지 허용합니다.
+   */
+}
+```
+
+HTML 페이지
+```html
+<!-- #fields로 bindingResult 접근 -->
+<div th:if="${#fields.hasGlobalErrors()}">
+  <p class="field-error" th:each="err : ${#fields.globalErrors()}"
+     th:text="${err}">글로벌 오류 메시지</p>
+</div>
+
+<!-- th:errorclass 활용 예시-->
+<input type="text"
+       id="price"
+       th:field="*{price}"
+       class="form-control"
+       th:errorclass="field-error"
+       placeholder="가격을 입력하세요">
+
+<!-- th:errors 예시 -->
+<div class="field-error" th:errors="*{price}">
+  가격 오류
+</div>
+```
+
 
 ## 참고링크
 - [스프링 MVC 2편 - 백엔드 웹 개발 활용 기술](https://www.inflearn.com/course/스프링-mvc-2/dashboard)

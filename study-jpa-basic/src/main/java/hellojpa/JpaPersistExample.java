@@ -5,7 +5,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
-public class JpaMain {
+public class JpaPersistExample {
     public static void main(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
 
@@ -13,19 +13,24 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
 
         try {
-            tx.begin(); //[트랜잭션]-시작
+            tx.begin();
 
-            //=== 로직 ===//
+            //비영속
             Member member = new Member();
             member.setId(1L);
-            member.setName("HelloA");
+            member.setName("HelloJPA");
+
+            // 영속
+            System.out.println("=== BEFORE ===");
             em.persist(member);
-            tx.commit(); //[트랜잭션]-커밋
+            System.out.println("=== AFTER ===");
+
+            tx.commit();
         } catch (Exception e) {
-            tx.rollback(); //[트랜잭션]-롤백
+            tx.rollback();
         } finally {
-            em.close(); // [엔티티 매니저]-종료
+            em.close();
         }
-        emf.close(); //[엔티티 매니저 팩토리]-종료
+        emf.close();
     }
 }

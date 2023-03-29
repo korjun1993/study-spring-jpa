@@ -13,7 +13,11 @@
             <!-- 옵션 -->
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
+
+            <!-- 테이블 생성 DDL 출력 -->
             <property name="hibernate.use_sql_comments" value="true"/>
+
+            <!-- 스키마 자동 생성 -->
             <property name="hibernate.hbm2ddl.auto" value="create" />
         </properties>
     </persistence-unit>

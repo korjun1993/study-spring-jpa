@@ -119,6 +119,25 @@ public class Member {
 }
 ```
 
+이제 Member, Team 클래스를 다음과 같은 방법으로 사용할 수 있다.
+```java
+// Member 객체의 Team 설정 코드
+Team team = new Team();
+team.setName("TeamA");
+em.persist(team);
+
+Member member = new Member();
+member.setUsername("member1");
+member.setTeam(team);
+
+// Member 객체의 Team 조회 코드
+Member findMember = em.find(Member.class, member.getId());
+Team findTeam = findMember.getTeam();
+```
+
+위 코드를 수행하면 다음과 같은 쿼리가 수행된다.
+![img.png](img/query0.png)
+
 
 # Reference
 - 자바 ORM 표준 JPA 프로그래밍, 김영한 지음

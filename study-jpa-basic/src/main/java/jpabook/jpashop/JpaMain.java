@@ -26,6 +26,11 @@ public class JpaMain {
             member.setUsername("member1");
 //            member.setTeamId(team.getId()); // 객체지향스럽지 않음 -> 변경:member.setTeam(team);
             member.setTeam(team);
+
+            /**
+             * insert into Member (TEAM_ID, USERNAME, MEMBER_ID)
+             * values (?, ?, ?)
+             */
             em.persist(member);
 
             em.flush();
@@ -33,7 +38,20 @@ public class JpaMain {
 
 //            Long teamId = member.getTeamId(); // Member의 Team을 찾을때마다 member.getTeamId()를 호출해야한다.
 //            Team findTeam = em.find(Team.class, teamId); // 객체지향 스럽지 않음 -> 변경:member.getTeam();
-            Team findTeam = member.getTeam();
+
+            /**
+             * select
+             *      MEMBER_ID, TEAM_ID, USERNAME
+             * from
+             *      Member member0_
+             * left outer join
+             *      Team team1
+             *          on member0_.TEAM_ID = team1.TEAM_ID
+             * where
+             *      member0_.MEMBER_ID=?
+             */
+            Member findMember = em.find(Member.class, member.getId());
+            Team findTeam = findMember.getTeam();
 
             tx.commit();
 

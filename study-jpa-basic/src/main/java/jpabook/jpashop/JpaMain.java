@@ -1,6 +1,7 @@
 package jpabook.jpashop;
 
 import jpabook.jpashop.domain.Member;
+import jpabook.jpashop.domain.Team;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -17,17 +18,25 @@ public class JpaMain {
         try {
             tx.begin();
 
-            //비영속
-            Member member = new Member();
+            Team team = new Team();
+            team.setName("TeamA");
+            em.persist(team);
 
-            // 영속
+            Member member = new Member();
+            member.setUsername("member1");
+//            member.setTeamId(team.getId()); // 객체지향스럽지 않음 -> 변경:member.setTeam(team);
+            member.setTeam(team);
             em.persist(member);
 
-            // Detach: 영속성 컨텍스트에서 제외
-            em.detach(member);
+            em.flush();
+            em.clear();
 
-            // Insert 쿼리가 생성되지 않음
+//            Long teamId = member.getTeamId(); // Member의 Team을 찾을때마다 member.getTeamId()를 호출해야한다.
+//            Team findTeam = em.find(Team.class, teamId); // 객체지향 스럽지 않음 -> 변경:member.getTeam();
+            Team findTeam = member.getTeam();
+
             tx.commit();
+
         } catch (Exception e) {
             tx.rollback();
         } finally {

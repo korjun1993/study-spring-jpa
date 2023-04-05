@@ -42,7 +42,83 @@ Member member = order.getMember();
 ```
 
 ## 단방향 연관관계
-작성중...
+다음과 같은 테이블이 있다고 가정하고 객체를 테이블에 맞추어 모델링해보자.
+![img.png](img/erd2.png)
+
+```java
+@Entity
+public class Member {
+    @Id
+    @GeneratedValue
+    @Column(name = "MEMBER_ID")
+    private Long id;
+
+    @Column(name = "USERNAME")
+    private String username;
+
+    @Column(name = "TEAM_ID") // 외래키
+    private Long teamId;
+}
+```
+Member 클래스는 외래키 식별자 `teamId`를 직접 다룬다.
+
+```java
+@Entity
+public class Team {
+    @Id
+    @GeneratedValue
+    @Column(name = "TEAM_ID")
+    private Long id;
+    private String name;
+}
+```
+
+Member, Team 객체를 만드는 예제 코드이다.
+```java
+Team team = new Team();
+team.setName("TeamA");
+em.persist(team);
+
+Member member = new Member();
+member.setUsername("member1");
+member.setTeamId(team.getId()); // 객체지향스럽지 않음 -> 변경:member.setTeam(team)
+em.persist(member);
+
+tx.commit();
+```
+member 객체의 Team을 설정하는 로직이 객체지향스럽지 않다.
+
+member 객체의 Team을 조회하는 예제 코드이다.
+
+```java
+Long teamId = member.getTeamId(); // Member의 Team을 찾을때마다 member.getTeamId()를 호출해야한다.
+Team findTeam = em.find(Team.class, teamId); // 객체지향 스럽지 않음 -> 변경:member.getTeam();
+```
+- member 객체의 Team을 조회하는 로직이 객체지향스럽지 않다.
+- 테이블은 외래 키로 조인을 사용해서 연관된 테이블을 찾는다.
+- 객체는 참조를 사용해서 연관된 객체를 찾는다.
+- 테이블과 객체 사이에는 큰 간격이 있다.
+
+단방향 매핑을 통해 수정해보자.
+
+```java
+@Entity
+public class Member {
+    @Id
+    @GeneratedValue
+    @Column(name = "MEMBER_ID")
+    private Long id;
+
+    @Column(name = "USERNAME")
+    private String username;
+    
+    // Member가 N이다.
+    @ManyToOne
+    @JoinColumn(name = "TEAM_ID")
+    private Team team;
+}
+```
+
 
 # Reference
 - 자바 ORM 표준 JPA 프로그래밍, 김영한 지음

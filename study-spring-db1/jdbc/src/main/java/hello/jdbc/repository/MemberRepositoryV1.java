@@ -56,7 +56,7 @@ public class MemberRepositoryV1 {
         ResultSet rs = null;
 
         try {
-            con = DBConnectionUtil.getConnection();
+            con = getConnection();
             pstmt = con.prepareStatement(sql);
             pstmt.setString(1, memberId);
 

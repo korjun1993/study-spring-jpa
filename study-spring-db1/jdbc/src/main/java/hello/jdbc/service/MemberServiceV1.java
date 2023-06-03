@@ -18,10 +18,14 @@ public class MemberServiceV1 {
         memberRepository.update(fromId, fromMember.getMoney() - money);
 
         // 학습을 위한 인위적인 예외 발생
+        validation(toMember);
+
+        memberRepository.update(toId, toMember.getMoney() + money);
+    }
+
+    private static void validation(Member toMember) {
         if (toMember.getMemberId().equals("ex")) {
             throw new IllegalStateException("계좌이체 예외 발생");
         }
-
-        memberRepository.update(toId, toMember.getMoney() + money);
     }
 }

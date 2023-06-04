@@ -16,6 +16,9 @@ import static hello.jdbc.connection.ConnectionConst.PASSWORD;
 import static hello.jdbc.connection.ConnectionConst.URL;
 import static hello.jdbc.connection.ConnectionConst.USERNAME;
 
+/**
+ * 트랜잭션 - 트랜잭션 매니저
+ */
 class MemberServiceV3_1Test {
     public static final String MEMBER_A = "memberA";
     public static final String MEMBER_B = "memberB";

@@ -8,7 +8,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
@@ -50,12 +49,14 @@ public class MemberServiceV3_1 {
         Member toMember = memberRepository.findById(toId);
 
         memberRepository.update(fromId, fromMember.getMoney() - money);
+        validation(toMember);
+        memberRepository.update(toId, toMember.getMoney() + money);
+    }
 
+    private static void validation(Member toMember) {
         // 학습을 위한 인위적인 예외 발생
         if (toMember.getMemberId().equals("ex")) {
             throw new IllegalStateException("계좌이체 예외 발생");
         }
-
-        memberRepository.update(toId, toMember.getMoney() + money);
     }
 }

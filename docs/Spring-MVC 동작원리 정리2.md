@@ -19,8 +19,8 @@
 
 ###BindingResult
 스프링이 제공하는 **검증 오류를 보관**하는 객체이다.
-`BindingResult` 객체는 `Model`에 담겨 서버 코드나 [Thymeleaf 와 같은 템플릿엔진에서 활용]()된다.
-검증 오류를 보관하는 방법은 2가지가 있다.
+`BindingResult` 객체는 `Model`에 담겨 서버 코드나 [Thymeleaf 와 같은 템플릿엔진에서 활용](https://github.com/korjun1993/study-spring-jpa/blob/master/docs/)
+된다. 검증 오류를 보관하는 방법은 2가지가 있다.
 
 case1. 스프링의 자동화된 검증 로직에 의해 (뒤에서 다룰 예정)
 

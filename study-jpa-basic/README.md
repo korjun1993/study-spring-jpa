@@ -136,6 +136,8 @@ Team findTeam = findMember.getTeam();
 ```
 
 위 코드를 수행하면 다음과 같은 쿼리가 수행된다.
+
+
 ![img.png](img/query0.png)
 
 
